@@ -1,9 +1,11 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+
+from utils.models import BaseModel
 User = get_user_model()
 
 
-class Student (models.Model):
+class Student (BaseModel):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=100,validators=[])
     last_name = models.CharField(max_length=100)
@@ -29,7 +31,7 @@ class Student (models.Model):
 
 
 # Student enrollment for courses
-class Enrollment(models.Model):
+class Enrollment(BaseModel):
     STATUS_CHOICES = (
         ("a", "Active"),
         ("c", "Completed"),

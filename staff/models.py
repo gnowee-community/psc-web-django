@@ -2,10 +2,12 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 
+from utils.models import BaseModel
+
 User = get_user_model()
 
 
-class Teacher(models.Model):
+class Teacher(BaseModel):
 	GENDER_CHOICES = (
         ("male", "Male"),
 		("female", "Female"),
@@ -31,10 +33,6 @@ class Teacher(models.Model):
 	status = models.CharField(max_length=20, choices=STATUS_CHOICES)
 	profile_picture = models.CharField(max_length=255, blank=True, null=True)
 	date_joined = models.DateTimeField(null=True, blank=True)
-	created_by = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True, blank=True, related_name="teacher_created_by")
-	updated_by = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True, blank=True, related_name="teacher_updated_by")
-	created_date = models.DateTimeField(auto_now_add=True)
-	updated_date = models.DateTimeField(auto_now=True)
 
 	def __str__(self):
 		return f"{self.first_name} {self.last_name} ({self.employee_code})"
