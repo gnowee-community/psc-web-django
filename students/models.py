@@ -19,13 +19,6 @@ class Student (BaseModel):
         ("a", "Active"), ("s", "Suspended"), ("g", "Graduated"), ("w", "Withdrawn")))
     profile_picture = models.CharField(max_length=10, null=True, blank=True)
     date_joined = models.DateField()
-    created_by = models.ForeignKey(
-        User, on_delete=models.DO_NOTHING, null=True, blank=True, related_name="student_created_by")
-    updated_by = models.ForeignKey(
-        User, on_delete=models.DO_NOTHING, null=True, blank=True, related_name="student_updated_by")
-    created_date = models.DateTimeField(auto_now_add=True)
-    updated_date = models.DateTimeField(auto_now=True)
-
     def __str__(self):
         return f"{self.pk} : {self.first_name} {self.last_name}"
 
@@ -42,12 +35,6 @@ class Enrollment(BaseModel):
     enrollment_date = models.DateTimeField(auto_now_add=True)
     status = models.CharField(
         max_length=15, choices=STATUS_CHOICES, default="active")
-    created_by = models.ForeignKey(User, on_delete=models.DO_NOTHING,
-                                   null=True, blank=True, related_name="enrollment_created_by")
-    updated_by = models.ForeignKey(User, on_delete=models.DO_NOTHING,
-                                   null=True, blank=True, related_name="enrollment_updated_by")
-    created_date = models.DateTimeField(auto_now_add=True)
-    updated_date = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"Enrollment {self.id}: Student {self.student_id} in Course {self.course_id}"
