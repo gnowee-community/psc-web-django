@@ -21,3 +21,42 @@ class Course(BaseModel):
 
     def __str__(self):
         return f"{self.id}: {self.title}"
+
+
+class CourseTeacher(BaseModel):
+    STATUS_CHOICES = (
+        ("A", "Active"),
+        ("I", "Inactive"),
+    )
+
+    course = models.ForeignKey('Course', on_delete=models.CASCADE)
+    teacher = models.ForeignKey('staff.Teacher', on_delete=models.CASCADE)
+    status = models.CharField(max_length=1, choices=STATUS_CHOICES, default="A")
+
+    def __str__(self):
+        return f"{self.course} - {self.teacher}"
+
+
+class Material(BaseModel):
+    TYPE_CHOICES = (
+        ("document", "Document"),
+        ("video", "Video"),
+        ("link", "Link"),
+        ("slides", "Slides"),
+    )
+    STATUS_CHOICES = (
+        ("A", "Active"),
+        ("I", "Inactive"),
+    )
+
+    course = models.ForeignKey('Course', on_delete=models.CASCADE)
+    teacher = models.ForeignKey('staff.Teacher', on_delete=models.SET_NULL, null=True, blank=True)
+    title = models.CharField(max_length=150)
+    description = models.TextField(blank=True, null=True)
+    file_url = models.CharField(max_length=255, blank=True, null=True)
+    upload_date = models.DateTimeField(auto_now_add=True)
+    type = models.CharField(max_length=20, choices=TYPE_CHOICES, default="document")
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default="A")
+
+    def __str__(self):
+        return f"{self.title} ({self.type})"
