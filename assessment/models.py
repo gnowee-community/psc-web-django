@@ -54,3 +54,5 @@ class SubmissionGrade(BaseModel):
 
     def __str__(self):
         return f"Grade {self.grade} for Submission {self.submission_id}"
+
+
