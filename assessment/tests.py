@@ -40,7 +40,3 @@ class StudentEnrollmentTest(TestCase):
         s_count = Enrollment.objects.filter(student__id=1).count()
         print("Count : ", s_count)
         self.assertAlmostEqual(s_count, 1)
-
-    def test_signal(self):
-        s1 = Student.objects.get(pk=1)
-        print(s1.last_name)

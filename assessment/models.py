@@ -18,18 +18,18 @@ class Assignment(BaseModel):
 
 # Submissions done by students
 class Submission(BaseModel):
-    STATUS_CHOICES = [
-        ("submitted", "Submitted"),
-        ("late", "Late"),
-        ("graded", "Graded"),
-    ]
+    STATUS_CHOICES = (
+        ("s", "Submitted"),
+        ("l", "Late"),
+        ("g", "Graded"),
+    )
 
     assignment = models.ForeignKey('Assignment', on_delete=models.CASCADE)
     student = models.ForeignKey('students.Student', on_delete=models.CASCADE)
     file_url = models.CharField(max_length=255)
     submitted_date = models.DateTimeField(auto_now_add=True)
     status = models.CharField(
-        max_length=10, choices=STATUS_CHOICES, default="submitted")
+        max_length=1, choices=STATUS_CHOICES, default="s")
 
     def __str__(self):
         return f"Submission {self.id} for Assignment {self.assignment_id} by Student {self.student_id}"
@@ -70,9 +70,9 @@ class Exam(models.Model):
 
 class ExamQuestion(models.Model):
     QUESTION_TYPE_CHOICES = (
-        ("single", "Single Choice"),
-        ("multiple", "Multiple Choice"),
-        ("text", "Text"),
+        ("s", "Single Choice"),
+        ("m", "Multiple Choice"),
+        ("t", "Text"),
     )
 
     category = models.ForeignKey('QuestionCategory', on_delete=models.SET_NULL, null=True, blank=True)
