@@ -58,7 +58,6 @@ class SerializerTest(TestCase):
             'phone_number': '9876543211',
             'emergency_contact_person_name': 'Doe M',
             'emergency_contact_number': '9123456781',
-            # Changed to 'a' (Active) so it appears in Student.objects
             'status': 'a',
             'profile_picture': None,
             'date_joined': '2025-10-30'
