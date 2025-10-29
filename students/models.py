@@ -31,6 +31,7 @@ class Student (SoftDeleteModel):
     status = models.CharField(max_length=1, choices=STATUS_CHOICES)
     profile_picture = models.CharField(max_length=10, null=True, blank=True)
     date_joined = models.DateField()
+    courses = models.ManyToManyField("course.Course", through="Enrollment")
 
     def __str__(self):
         return f"{self.pk} : {self.first_name} {self.last_name}"
