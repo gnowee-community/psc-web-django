@@ -27,6 +27,7 @@ class SoftDeleteModelManager(models.Manager):
 class SoftDeleteModel(BaseModel):
     objects = SoftDeleteModelManager()
     all_objects = models.Manager()
+    status = models.CharField(choices=(("i", "Inactive"), ("a", "Active")))
 
     class Meta:
         abstract = True
