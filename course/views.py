@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from rest_framework import views
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
@@ -61,7 +62,7 @@ def course_detail(request, id):
         try:
             model = models.Course.objects.get(id=id)
             model.delete()
-            return Response(data=se.data, status=status.HTTP_204_NO_CONTENT)
+            return Response(status=status.HTTP_204_NO_CONTENT)
         except models.Course.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
@@ -73,3 +74,60 @@ def course_actions(request, id, action):
         se = StudentMinSerializer(students, many=True)
         return Response(data=se.data, status=status.HTTP_200_OK)
     return Response(status=status.HTTP_200_OK)
+
+
+class CourseListCreateView(views.APIView):
+    def get(self, request):
+        courses = models.Course.objects.all()
+        se = serializer.CourseSerializer(courses, many=True)
+        return Response(data=se.data, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        se = serializer.CourseSerializer(data=request.data)
+        if not se.is_valid():
+            return Response(data=se.errors, status=status.HTTP_400_BAD_REQUEST)
+        obj = se.save()
+        _se = serializer.CourseSerializer(obj)
+        return Response(data=_se.data, status=status.HTTP_201_CREATED)
+
+
+class CourseDetailView(views.APIView):
+
+    def get(self, request, id):
+        try:
+            model = models.Course.objects.get(id=id)
+            se = serializer.CourseSerializer(model)
+            return Response(data=se.data, status=status.HTTP_200_OK)
+        except models.Course.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+    def put(self, request, id):
+        try:
+            model = models.Course.objects.get(id=id)
+            se = serializer.CourseSerializer(model, data=request.data)
+            if not se.is_valid():
+                return Response(data=se.errors, status=status.HTTP_400_BAD_REQUEST)
+            se.save()
+            return Response(data=se.data, status=status.HTTP_200_OK)
+        except models.Course.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+    def patch(self, request, id):
+        try:
+            model = models.Course.objects.get(id=id)
+            se = serializer.CourseSerializer(
+                model, data=request.data, partial=True)
+            if not se.is_valid():
+                return Response(data=se.errors, status=status.HTTP_400_BAD_REQUEST)
+            se.save()
+            return Response(data=se.data, status=status.HTTP_200_OK)
+        except models.Course.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+    def delete(self, request, id):
+        try:
+            model = models.Course.objects.get(id=id)
+            model.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except models.Course.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
