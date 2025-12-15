@@ -12,7 +12,6 @@ class AssignmentSerializer(BaseSerializer):
 
     class Meta(BaseSerializer.META):
         model = models.Assignment
-        fields = "__all__"
 
     def get_total_submissions(self, instance):
         return instance.submission_set.count()
@@ -45,7 +44,6 @@ class SubmissionSerializer(BaseSerializer):
 
     class Meta(BaseSerializer.META):
         model = models.Submission
-        fields = "__all__"
 
     def get_is_graded(self, instance):
         return instance.status == 'g'
@@ -65,7 +63,6 @@ class SubmissionSerializer(BaseSerializer):
 class SubmissionGradeSerializer(BaseSerializer):
     class Meta(BaseSerializer.META):
         model = models.SubmissionGrade
-        fields = "__all__"
 
 
 class QuestionCategorySerializer(serializers.ModelSerializer):

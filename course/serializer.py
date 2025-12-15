@@ -18,7 +18,6 @@ class CourseSerializer(BaseSerializer):
 
     class Meta(BaseSerializer.META):
         model = models.Course
-        fields = "__all__"
 
     def get_total_enrolled_students(self, instance):
         return instance.enrollment_set.filter(status='a').count()
@@ -48,7 +47,6 @@ class CourseWithTeachersSerializer(BaseSerializer):
 
     class Meta(BaseSerializer.META):
         model = models.Course
-        fields = "__all__"
 
     def get_teachers(self, instance):
         from staff.serializer import TeacherMinSerializer
@@ -76,7 +74,6 @@ class CourseWithTeachersSerializer(BaseSerializer):
 class CourseTeacherSerializer(BaseSerializer):
     class Meta(BaseSerializer.META):
         model = models.CourseTeacher
-        fields = "__all__"
 
 
 class MaterialSerializer(BaseSerializer):
@@ -84,7 +81,6 @@ class MaterialSerializer(BaseSerializer):
 
     class Meta(BaseSerializer.META):
         model = models.Material
-        fields = "__all__"
 
     def get_uploaded_by_name(self, instance):
         if instance.teacher:

@@ -26,7 +26,6 @@ class StudentSerializer(BaseSerializer):
 
     class Meta(BaseSerializer.META):
         model = models.Student
-        fields = "__all__"
 
     def get_age(self, instance):
         return date.today().year - instance.date_of_birth.year
@@ -52,7 +51,6 @@ class StudentWithCoursesSerializer(BaseSerializer):
 
     class Meta(BaseSerializer.META):
         model = models.Student
-        fields = "__all__"
 
     def get_age(self, instance):
         return date.today().year - instance.date_of_birth.year
@@ -83,7 +81,6 @@ class EnrollmentSerializer(BaseSerializer):
 
     class Meta(BaseSerializer.META):
         model = models.Enrollment
-        fields = "__all__"
 
     def get_enrollment_duration(self, instance):
         from django.utils import timezone

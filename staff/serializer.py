@@ -24,7 +24,6 @@ class TeacherSerializer(BaseSerializer):
 
     class Meta(BaseSerializer.META):
         model = models.Teacher
-        fields = "__all__"
 
     def get_age(self, instance):
         if instance.dob:
@@ -62,46 +61,38 @@ class TeacherSerializer(BaseSerializer):
 class QualificationSerializer(BaseSerializer):
     class Meta(BaseSerializer.META):
         model = models.Qualification
-        fields = "__all__"
 
 
 class UserQualificationSerializer(BaseSerializer):
     class Meta(BaseSerializer.META):
         model = models.UserQualification
-        fields = "__all__"
 
 
 class SpecializationSerializer(BaseSerializer):
     class Meta(BaseSerializer.META):
         model = models.Specialization
-        fields = "__all__"
 
 
 class UserSpecializationSerializer(BaseSerializer):
     class Meta(BaseSerializer.META):
         model = models.UserSpecialization
-        fields = "__all__"
 
 
 class DepartmentSerializer(BaseSerializer):
     class Meta(BaseSerializer.META):
         model = models.Department
-        fields = "__all__"
 
 
 class UserDepartmentSerializer(BaseSerializer):
     class Meta(BaseSerializer.META):
         model = models.UserDepartment
-        fields = "__all__"
 
 
 class DesignationSerializer(BaseSerializer):
     class Meta(BaseSerializer.META):
         model = models.Designation
-        fields = "__all__"
 
 
 class UserDesignationSerializer(BaseSerializer):
     class Meta(BaseSerializer.META):
         model = models.UserDesignation
-        fields = "__all__"
