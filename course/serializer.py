@@ -1,6 +1,11 @@
+from django.db.models import Count
 from rest_framework import serializers
 from utils.serializer import BaseSerializer
 from course import models
+from assessment.models import Assignment
+
+from staff.serializer import TeacherMinSerializer
+
 
 
 class CourseMinSerializer(serializers.ModelSerializer):
@@ -29,12 +34,13 @@ class CourseSerializer(BaseSerializer):
         return instance.material_set.filter(status='a').count()
 
     def get_total_assignments(self, instance):
-        from assessment.models import Assignment
+        
         return Assignment.objects.filter(course=instance).count()
 
     def get_materials_by_type(self, instance):
-        from django.db.models import Count
-        materials = instance.material_set.filter(status='a').values('type').annotate(count=Count('type'))
+        
+        materials = instance.material_set.filter(
+            status='a').values('type').annotate(count=Count('type'))
         return {item['type']: item['count'] for item in materials}
 
 
@@ -49,7 +55,7 @@ class CourseWithTeachersSerializer(BaseSerializer):
         model = models.Course
 
     def get_teachers(self, instance):
-        from staff.serializer import TeacherMinSerializer
+        
         # Get active course-teacher relationships
         course_teachers = instance.courseteacher_set.filter(status='a')
         teachers = [ct.teacher for ct in course_teachers]
@@ -62,12 +68,12 @@ class CourseWithTeachersSerializer(BaseSerializer):
         return instance.material_set.filter(status='a').count()
 
     def get_total_assignments(self, instance):
-        from assessment.models import Assignment
+       
         return Assignment.objects.filter(course=instance).count()
 
     def get_materials_by_type(self, instance):
-        from django.db.models import Count
-        materials = instance.material_set.filter(status='a').values('type').annotate(count=Count('type'))
+        materials = instance.material_set.filter(
+            status='a').values('type').annotate(count=Count('type'))
         return {item['type']: item['count'] for item in materials}
 
 
@@ -86,4 +92,3 @@ class MaterialSerializer(BaseSerializer):
         if instance.teacher:
             return f"{instance.teacher.first_name} {instance.teacher.last_name}"
         return None
-    

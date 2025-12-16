@@ -1,3 +1,5 @@
+from django.utils import timezone
+from django.db.models import Avg
 from rest_framework import serializers
 from utils.serializer import BaseSerializer
 from assessment import models
@@ -24,12 +26,12 @@ class AssignmentSerializer(BaseSerializer):
 
     def get_is_overdue(self, instance):
         if instance.due_date:
-            from django.utils import timezone
+            
             return timezone.now() > instance.due_date
         return False
 
     def get_average_grade(self, instance):
-        from django.db.models import Avg
+        
         submissions = instance.submission_set.all()
         avg = models.SubmissionGrade.objects.filter(
             submission__in=submissions
@@ -50,7 +52,6 @@ class SubmissionSerializer(BaseSerializer):
 
     def get_days_until_due(self, instance):
         if instance.assignment.due_date:
-            from django.utils import timezone
             delta = instance.assignment.due_date - instance.submitted_date
             return delta.days
         return None

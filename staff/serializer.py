@@ -2,6 +2,9 @@ from datetime import date
 from rest_framework import serializers
 from utils.serializer import BaseSerializer
 from staff import models
+from course.models import CourseTeacher
+from course.models import CourseTeacher
+from students.models import Enrollment
 
 
 class TeacherMinSerializer(serializers.ModelSerializer):
@@ -31,12 +34,11 @@ class TeacherSerializer(BaseSerializer):
         return None
 
     def get_total_courses(self, instance):
-        from course.models import CourseTeacher
+        
         return CourseTeacher.objects.filter(teacher=instance, status='a').count()
 
     def get_total_students(self, instance):
-        from course.models import CourseTeacher
-        from students.models import Enrollment
+        
         # Get all active courses for this teacher
         course_ids = CourseTeacher.objects.filter(
             teacher=instance, status='a'
