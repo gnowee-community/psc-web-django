@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from utils.serializer import BaseSerializer
+
 from course import models
 
 
@@ -18,6 +19,7 @@ class CourseSerializer(BaseSerializer):
 
     class Meta(BaseSerializer.META):
         model = models.Course
+        read_only_fields = BaseSerializer.META.read_only_fields + ("status",)
 
     def get_total_enrolled_students(self, instance):
         return instance.enrollment_set.filter(status='a').count()
@@ -87,3 +89,5 @@ class MaterialSerializer(BaseSerializer):
             return f"{instance.teacher.first_name} {instance.teacher.last_name}"
         return None
     
+
+
