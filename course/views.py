@@ -3,8 +3,10 @@ from rest_framework import views
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.decorators import api_view, action
 from rest_framework.response import Response
+import django_filters
 from rest_framework import status
 from course import models
 from course import serializer
@@ -146,9 +148,24 @@ class CourseGenericRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     serializer_class = serializer.CourseSerializer
 
 
+class CustomPagination(PageNumberPagination):
+    page_size = 2
+
+
+class CourseFilter(django_filters.FilterSet):
+    title = django_filters.CharFilter(lookup_expr="icontains")
+    description = django_filters.CharFilter(lookup_expr="icontains")
+
+    class Meta:
+        model = models.Course
+        fields = ("id", "title", "description", "status")
+
+
 class CourseViewSet(ModelViewSet):
     queryset = models.Course.objects.all()
     serializer_class = serializer.CourseSerializer
+    filterset_class = CourseFilter
+    # pagination_class = CustomPagination
 
     @action(methods=["GET"], detail=True)
     def students(self, request, pk):
